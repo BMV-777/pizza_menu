@@ -67,9 +67,20 @@ function Header() {
 }
 
 function Menu() {
+  // const pizza = pizzaData;
+  const pizzaArray = [];
+  const pizza = pizzaData.length;
   return (
     <main className="menu">
       <h2>Our menu</h2>
+      {pizza && (
+        <ul className="pizzas">
+          {pizzaArray.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      )}
+      {/* <h2>Our menu</h2>
       <Pizza
         name="Pizza Spinaci"
         ingredients="Tomato, mozarella, mushrooms, and onion"
@@ -81,21 +92,21 @@ function Menu() {
         ingredients="Tomato, mushrooms"
         price={12}
         photoName="pizzas/funghi.jpg"
-      />
+      /> */}
     </main>
   );
 }
 
 function Pizza(props) {
   return (
-    <div className="pizza">
-      <img src={props.photoName} alt={props.name} />
+    <li className="pizza">
+      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
       <div>
-        <h3>{props.name}</h3>
-        <p>{props.ingredients}</p>
-        <span>{props.price + 3}</span>
+        <h3>{props.pizzaObj.name}</h3>
+        <p>{props.pizzaObj.ingredients}</p>
+        <span>{props.pizzaObj.price}</span>
       </div>
-    </div>
+    </li>
   );
 }
 
@@ -122,7 +133,7 @@ function Footer() {
   // });
   const hour = new Date().getHours();
   const openHor = 9;
-  const closedHor = 22;
+  const closedHor = 20;
   const isOpen = hour >= openHor && hour <= closedHor;
 
   // isOpen ? alert("We are open!") : alert("We are Closed!");
@@ -137,7 +148,15 @@ function Footer() {
 
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()}. We're currently open
+      {isOpen && (
+        <div className="order">
+          <p>
+            We're currently open until {closedHor}:00. Come visit us or order
+            online
+          </p>
+          <button className="btn">Order</button>
+        </div>
+      )}
     </footer>
   );
 }
@@ -149,4 +168,4 @@ root.render(
   </React.StrictMode>
 );
 // The Complete JavaScript Course 2022: From Zero to Expert!
-// 5 / 42;
+// 5 / 47;
