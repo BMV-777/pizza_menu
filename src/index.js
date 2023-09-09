@@ -67,18 +67,28 @@ function Header() {
 }
 
 function Menu() {
-  // const pizza = pizzaData;
-  const pizzaArray = [];
-  const pizza = pizzaData.length;
+  const pizzas = pizzaData;
+  // const pizzas = [];
+  const numPizza = pizzas.length;
   return (
     <main className="menu">
       <h2>Our menu</h2>
-      {pizza && (
-        <ul className="pizzas">
-          {pizzaArray.map((pizza) => (
-            <Pizza pizzaObj={pizza} key={pizza.name} />
-          ))}
-        </ul>
+
+      {numPizza > 0 ? (
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all organic, all delicious.
+          </p>
+
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p>We're still working on our menu. Please come back later :)</p>
       )}
       {/* <h2>Our menu</h2>
       <Pizza
@@ -97,14 +107,15 @@ function Menu() {
   );
 }
 
-function Pizza(props) {
+function Pizza({ pizzaObj }) {
+  if (pizzaObj.soldOut) return null;
   return (
     <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price}</span>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>{pizzaObj.price}</span>
       </div>
     </li>
   );
@@ -146,18 +157,30 @@ function Footer() {
 
   // console.log(hour);
 
+  // if (!isOpen) return <h1>Closed</h1>;
+
   return (
     <footer className="footer">
-      {isOpen && (
-        <div className="order">
-          <p>
-            We're currently open until {closedHor}:00. Come visit us or order
-            online
-          </p>
-          <button className="btn">Order</button>
-        </div>
+      {isOpen ? (
+        <Order closedHor={closedHor} openHor={openHor} />
+      ) : (
+        <p>
+          We're happy to welcome you between {openHor}:00 and {closedHor}:00
+        </p>
       )}
     </footer>
+  );
+}
+
+function Order({ closedHor, openHor }) {
+  return (
+    <div className="order">
+      <p>
+        We're open from {openHor}:00 to {closedHor}:00. Come visit us or order
+        online
+      </p>
+      <button className="btn">Order</button>
+    </div>
   );
 }
 
@@ -168,4 +191,4 @@ root.render(
   </React.StrictMode>
 );
 // The Complete JavaScript Course 2022: From Zero to Expert!
-// 5 / 47;
+// 5 / 52;
